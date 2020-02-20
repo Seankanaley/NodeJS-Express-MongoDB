@@ -4,6 +4,7 @@ const Campsite = require('./models/Campsite');
 const url = 'mongodb://localhost:27017/nucampsite';
 const connect = mongoose.connect(url, {
     useCreateIndex: true,
+    useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -24,12 +25,27 @@ connect.then(() => {
     })
         .then(campsite => {
             console.log(campsite);
-            //returns documents based on the Campsite model and return in an array of objects
-            return Campsite.find();
+            return Campsite.findByIdAndUpdate(campsite._id, {
+                $set: { description: "Updated Test Document" }
+            }, {
+                //new: true, will cause the return method to return the new/updated document, instead of the default original
+                new: true
+            });
+        })
+        .then(campsite => {
+            console.log(campsite);
+
+            campsite.comments.push({
+                rating: 5,
+                text: "What a magnificent view!",
+                author: "tinuis Lorvaldes"
+            });
+
+            return campsite.save();
         })
         //If document based on mode is found THEN return the array of objects and log it to the console
-        .then(campsites => {
-            console.log(campsites);
+        .then(campsite => {
+            console.log(campsite);
             return Campsite.deleteMany();
         })
         .then(() => {
