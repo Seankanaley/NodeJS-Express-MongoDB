@@ -9,16 +9,19 @@ const connect = mongoose.connect(url, {
 });
 
 connect.then(() => {
-    console.log('Connectd correctly to server')
+    console.log('Connected correctly to server')
 
     //Creates new document based on Campsite model
-    const newCampsite = new Campsite({
+    // const newCampsite = new Campsite({
+    //     name: 'React Lake Campground',
+    //     description: 'test'
+    // });
+
+    //Alternate syntax for creating a new document, it also removes the need to have a save method like newCampsite.save()
+    Campsite.create({
         name: 'React Lake Campground',
         description: 'test'
-    });
-
-    //Saves document to Campsites collection
-    newCampsite.save()
+    })
         .then(campsite => {
             console.log(campsite);
             //returns documents based on the Campsite model and return in an array of objects
