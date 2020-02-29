@@ -2,3 +2,4 @@ node_modules
 mongodb/data
 nucampsiteServer/sessions
 nucampsiteServer/bin
+nucampsiteServer/config.js
